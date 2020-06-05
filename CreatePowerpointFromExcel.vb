@@ -9,6 +9,10 @@ Public chartWidth As Single
 Public presentation As Object
 
 Public riceColor As Long
+Public kfcColor As Long
+Public containerColor As Long
+Public friesColor As Long
+Public carbsColor As Long
 Public proteinColor As Long
 Public sauceColor As Long
 Public addonColor As Long
@@ -21,6 +25,10 @@ Sub SetGlobalVariables()
   chartMargin = 20
 
   riceColor = RGB(156, 136, 86)
+  kfcColor = RGB(0,0,205)
+  containerColor = RGB(172,172,172)
+  friesColor = RGB(252,247,94)
+  carbsColor = RGB(255,127,80)
   proteinColor = RGB(255, 65, 65)
   sauceColor = RGB(91, 107, 137)
   addonColor = RGB(134, 160, 111)
@@ -65,8 +73,8 @@ Sub CreatePowerpointFromExcel()
         If currentRowComponent = "" Then
           currentSubComponentEndRow = currentRow - 1
 
-          Call AddIngredientTitleSlide(currentSubComponent, currentSubComponentStartRow)
-          Call Increment(currentSlideIndex)
+          ' Call AddIngredientTitleSlide(currentSubComponent, currentSubComponentStartRow)
+          ' Call Increment(currentSlideIndex)
 
           Call AddIngredientSlide(currentSubComponent, currentSubComponentStartRow, currentSubComponentEndRow)
           Call Increment(currentSlideIndex)
@@ -75,8 +83,12 @@ Sub CreatePowerpointFromExcel()
         Else
           currentComponentEndRow = currentRow - 1
 
-          Call AddIngredientTitleSlide(currentComponent, currentComponentStartRow)
-          Call Increment(currentSlideIndex)
+          If currentComponent <> "Tortilla" And _
+           currentComponent <> "Containers" And _
+           currentComponent <> "Lids" Then
+            Call AddIngredientTitleSlide(currentComponent, currentComponentStartRow)
+            Call Increment(currentSlideIndex)
+          End If
 
           Call AddIngredientSlide(currentComponent, currentComponentStartRow, currentComponentEndRow)
           Call Increment(currentSlideIndex)
@@ -105,8 +117,8 @@ Sub CreatePowerpointFromExcel()
         ElseIf currentRowSubComponent <> currentSubComponent Then
           currentSubComponentEndRow = currentRow - 1
 
-          Call AddIngredientTitleSlide(currentSubComponent, currentSubComponentStartRow)
-          Call Increment(currentSlideIndex)
+          ' Call AddIngredientTitleSlide(currentSubComponent, currentSubComponentStartRow)
+          ' Call Increment(currentSlideIndex)
 
           Call AddIngredientSlide(currentSubComponent, currentSubComponentStartRow, currentSubComponentEndRow)
           Call Increment(currentSlideIndex)
@@ -131,6 +143,14 @@ Sub AddIngredientTitleSlide(ByVal title as String, ByVal row As Integer)
 
   If category = "1. Rice" Then
     slide.Background.Fill.ForeColor.RGB = riceColor
+  ElseIf title = "Pita Bread" Then
+    slide.Background.Fill.ForeColor.RGB = carbsColor
+  ElseIf title = "Waffle Fries" Then
+    slide.Background.Fill.ForeColor.RGB = friesColor
+  ElseIf title = "Aluminum Foil" Then
+    slide.Background.Fill.ForeColor.RGB = containerColor
+  ElseIf title = "Daikon Radish" Then
+    slide.Background.Fill.ForeColor.RGB = kfcColor
   ElseIf category = "2. Protein" Then
     slide.Background.Fill.ForeColor.RGB = proteinColor
   ElseIf category = "3. Sauce" Then
@@ -149,13 +169,25 @@ Sub AddIngredientTitleSlide(ByVal title as String, ByVal row As Integer)
   )
 
   With titleText.TextFrame
-    .TextRange.Text = Ucase(title)
     .TextRange.ParagraphFormat.Alignment = 1
     .TextRange.Font.Size = 66
     .TextRange.Font.Color.RGB = RGB(255,255,255)
     .TextRange.Font.Name = "Roboto Condensed"
     .VerticalAnchor = msoAnchorMiddle
   End With
+
+  If title = "Pita Bread" Then
+    titleText.TextFrame.TextRange.Text = "SIDE - CARBS"
+  ElseIf title = "Waffle Fries" Then
+    titleText.TextFrame.TextRange.Text = "SIDE - FRIES"
+    titleText.TextFrame.TextRange.Font.Color.RGB = RGB(0,0,0)
+  ElseIf title = "Aluminum Foil" Then
+    titleText.TextFrame.TextRange.Text = "CONTAINERS"
+  ElseIf title = "Daikon Radish" Then
+    titleText.TextFrame.TextRange.Text = "KOREAN FRIED CHICKEN"
+  Else
+    titleText.TextFrame.TextRange.Text = Ucase(title)
+  End If
 End Sub
 
 Sub AddIngredientSlide( _
