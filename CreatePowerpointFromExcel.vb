@@ -20,7 +20,7 @@ Public addonColor As Long
 Sub SetGlobalVariables()
   blankSlideLayoutId = 12
   startingRow = 5
-  slideTitleDistanceFromTop = 40
+  slideTitleDistanceFromTop = 20
   currentSlideIndex = 1
   chartMargin = 20
 
@@ -298,7 +298,7 @@ Sub AddDailyParChart( _
 )
   Dim chart As Object
   Set chart = slide.Shapes.AddTable( _
-    7, _
+    9, _
     2, _
     (chartWidth * 4) + (chartMargin * 3), _
     slideTitleDistanceFromTop + 120, _
@@ -324,7 +324,9 @@ Sub AddDailyParChart( _
       Call FormatChartEntry(chart.Table.cell(4, 1), "WED")
       Call FormatChartEntry(chart.Table.cell(5, 1), "THURS")
       Call FormatChartEntry(chart.Table.cell(6, 1), "FRI")
-      Call FormatChartEntry(chart.Table.cell(7, 1), "TOTAL", True)
+      Call FormatChartEntry(chart.Table.cell(7, 1), "SAT")
+      Call FormatChartEntry(chart.Table.cell(8, 1), "SUN")
+      Call FormatChartEntry(chart.Table.cell(9, 1), "TOTAL", True)
 
       Call FormatChartEntry(chart.Table.cell(1, 2), UCase(GetCellVal("AG", row)), False, True)
       Call FormatChartEntry(chart.Table.cell(2, 2), GetCellVal("Y", row))
@@ -332,7 +334,9 @@ Sub AddDailyParChart( _
       Call FormatChartEntry(chart.Table.cell(4, 2), GetCellVal("AA", row))
       Call FormatChartEntry(chart.Table.cell(5, 2), GetCellVal("AB", row))
       Call FormatChartEntry(chart.Table.cell(6, 2), GetCellVal("AC", row))
-      Call FormatChartEntry(chart.Table.cell(7, 2), GetCellVal("AF", row), True)
+      Call FormatChartEntry(chart.Table.cell(7, 2), GetCellVal("AD", row))
+      Call FormatChartEntry(chart.Table.cell(8, 2), GetCellVal("AE", row))
+      Call FormatChartEntry(chart.Table.cell(9, 2), GetCellVal("AF", row), True)
     End If
   Next row
 End Sub
@@ -347,7 +351,7 @@ Sub AddServingsChart( _
     3, _
     2, _
     (chartWidth * 4) + (chartMargin * 3), _
-    slideTitleDistanceFromTop + 360, _
+    slideTitleDistanceFromTop + 420, _
     chartWidth _
   )
 
@@ -355,7 +359,7 @@ Sub AddServingsChart( _
   Set chartTitle = slide.Shapes.AddTextbox( _
     msoTextOrientationHorizontal, _
     (chartWidth * 4) + (chartMargin * 3), _
-    slideTitleDistanceFromTop + 330, _
+    slideTitleDistanceFromTop + 390, _
     chartWidth, _
     60 _
   )
